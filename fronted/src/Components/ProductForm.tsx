@@ -48,6 +48,7 @@ export default function ProductForm() {
   const [modalMessage, setModalMessage] = useState("");
   const [modalIcon, setModalIcon] = useState<React.ReactNode | null>(null);
 
+  // Display an error modal with a red X icon and a custom message
   const showErrorModal = (msg: string) => {
     setModalType("error");
     setModalMessage(msg);
@@ -66,6 +67,7 @@ export default function ProductForm() {
     setModalOpen(true);
   };
 
+  // Load product data in edit mode and parse unit details; reset form in create mode
   useEffect(() => {
     if (id) {
       setMode("edit");
@@ -94,10 +96,10 @@ export default function ProductForm() {
     }
   }, [id, location.pathname]);
 
+  // Fetch suppliers and categories with combined error handling for failure messaging
   useEffect(() => {
     let supplierError = false;
     let categoryError = false;
-
     fetch("https://localhost:7157/api/Supplier/GetAllSuppliers")
       .then((res) => res.json())
       .then(setSuppliers)
@@ -107,7 +109,6 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
-
     fetch("https://localhost:7157/api/Category/GetAllCategories")
       .then((res) => res.json())
       .then(setCategories)
@@ -117,7 +118,6 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
-
     setTimeout(() => {
       if (supplierError && !categoryError)
         showErrorModal("Failed to load suppliers.");
@@ -126,6 +126,7 @@ export default function ProductForm() {
     }, 300);
   }, []);
 
+  // Check if a product name already exists in the database
   const checkNameExists = async (name: string): Promise<boolean> => {
     const res = await fetch(
       `https://localhost:7157/api/Products/CheckNameExists/${encodeURIComponent(
@@ -135,16 +136,15 @@ export default function ProductForm() {
     return await res.json();
   };
 
+  // Validate product name uniqueness on change, ignoring name error if unchanged in edit mode
   useEffect(() => {
     const validateName = async () => {
       const name = formData.productName.trim();
       if (!name) return;
-
       const exists = await checkNameExists(name);
       const isSameAsOriginal =
         mode === "edit" &&
         name.toLowerCase() === originalProductName.toLowerCase();
-
       if (exists && !isSameAsOriginal) {
         setErrors((prev) => ({
           ...prev,
@@ -157,10 +157,10 @@ export default function ProductForm() {
         });
       }
     };
-
     validateName();
   }, [formData.productName, mode, originalProductName]);
 
+  // Handle input changes, parsing numeric fields and updating unit state separately
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -176,58 +176,50 @@ export default function ProductForm() {
     }
   };
 
+  // Handle form submission: validate input, build payload, send to API, and show success or error modal
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors: { [key: string]: string } = {};
     const unit = `${quantityPerUnit.trim()} ${unitType.trim()}`.trim();
     const name = formData.productName.trim();
-
     if (!name) errors.productName = "Product name is required.";
-
     const exists = await checkNameExists(name);
     const isSameAsOriginal =
       mode === "edit" &&
       name.toLowerCase() === originalProductName.toLowerCase();
     if (exists && !(mode === "edit" && isSameAsOriginal))
       errors.productName = "Product name already exists.";
-
     if (!formData.supplierID) errors.supplierID = "Supplier is required.";
     if (!formData.categoryID) errors.categoryID = "Category is required.";
     if (!quantityPerUnit.trim())
       errors.quantityPerUnit = "Quantity per unit is required.";
     if (!unitType.trim()) errors.unit = "Unit type is required.";
     if (formData.price <= 0) errors.price = "Price must be greater than 0.";
-
     setErrors(errors);
     if (Object.keys(errors).length > 0) return;
-
     const supplier = suppliers.find(
       (s) => s.supplierID === formData.supplierID
     )!;
     const category = categories.find(
       (c) => c.categoryID === formData.categoryID
     )!;
-
     const payload = {
       ...formData,
       supplier,
       category,
       unit,
     };
-
     const url =
       mode === "edit"
         ? "https://localhost:7157/api/Products/EditProduct"
         : "https://localhost:7157/api/Products/AddNewProduct";
     const method = mode === "edit" ? "PUT" : "POST";
-
     try {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       if (res.ok) {
         setModalType("success");
         setModalMessage("Product saved successfully!");

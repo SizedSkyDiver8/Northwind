@@ -10,6 +10,7 @@ interface ModalStatusProps {
   showActions?: boolean;
 }
 
+// Reusable modal component for delete, success, or error status messages
 const ModalStatus: React.FC<ModalStatusProps> = ({
   isOpen,
   onConfirm,

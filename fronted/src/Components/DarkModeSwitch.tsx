@@ -5,6 +5,7 @@ export default function DarkModeSwitch() {
     return localStorage.getItem("darkMode") === "true";
   });
 
+  // Toggle dark mode and persist preference in localStorage
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "";
     localStorage.setItem("darkMode", darkMode.toString());

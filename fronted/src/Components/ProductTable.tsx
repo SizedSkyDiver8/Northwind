@@ -2,6 +2,7 @@ import React from "react";
 import iconEdit from "../assets/icon-Edit.png";
 import iconDelete from "../assets/icon-delete.png";
 
+// Renders a table of products with edit and delete actions for each row
 interface Product {
   productID: number;
   productName: string;

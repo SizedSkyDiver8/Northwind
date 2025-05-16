@@ -2,6 +2,7 @@ import React from "react";
 import iconEdit from "../assets/icon-Edit.png";
 import iconDelete from "../assets/icon-delete.png";
 
+// Renders a responsive card layout for products with edit and delete actions
 interface Product {
   productID: number;
   productName: string;
