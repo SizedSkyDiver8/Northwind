@@ -46,7 +46,7 @@ You will also need the Docker image containing the Northwind database, which can
     ```
    dotnet run
     ```   
-4. If step 3 doesnt work run this command:
+4. If step 3 doesnt work run this command and return to step 3:
     ```
    dotnet dev-certs https --trust
     ```
