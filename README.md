@@ -1,12 +1,12 @@
-# Northwind Products Application
+# 📦 Northwind Products Application
 
-## Project Setup Instructions
+## ⚙️ Project Setup Instructions
 
 This project is a complete full-stack application for managing products in the Northwind database. It combines a modern React frontend (built with Vite) with an ASP.NET Core 6 backend API, while the SQL Server database is hosted inside a Docker container.
 
 ---
 
-### Prerequisites
+### 🧰 Prerequisites
 
 Before setting up the project, make sure the following software is installed on your machine:
 
@@ -18,7 +18,7 @@ You will also need the Docker image containing the Northwind database, which can
 
 ---
 
-### Database Setup
+### 🗄️ Database Setup
 
 1. Download the MSSQL Docker image with the pre-loaded Northwind database from the following link:  
   https://drive.google.com/file/d/1GCGnRs4gWap5ue8vqjrmfh4Dz7d14_g-/view?usp=sharing
@@ -29,7 +29,7 @@ You will also need the Docker image containing the Northwind database, which can
 ```
 ---
 
-### Backend Setup
+### 🔧 Backend Setup
 
 1. Navigate to the backend project directory:
    ```sh
@@ -44,7 +44,7 @@ You will also need the Docker image containing the Northwind database, which can
     ```
 ---
 
-### Frontend Setup
+### 🖥️ Frontend Setup
 
 1. Navigate to the `client` directory:
    ```sh
