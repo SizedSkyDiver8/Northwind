@@ -42,6 +42,10 @@ You will also need the Docker image containing the Northwind database, which can
     ```
    dotnet run
     ```
+IF step 3 doesnt work tun this command:
+    ```
+   dotnet dev-certs https --trust
+    ```
 ---
 
 ### 🖥️ Frontend Setup
