@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { APIRoutes } from "../Api";
 
 interface TopCustomer {
   customerID: number;
@@ -12,8 +13,11 @@ const TopCustomers: React.FC = () => {
 
   // Fetches top 3 customers by order count on component mount
   useEffect(() => {
-    fetch("https://localhost:7157/api/Customer/GetTop3CustomerOrderCount")
-      .then((res) => res.json())
+    fetch(APIRoutes.CUSTOMERS_TOP3)
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
       .then(setCustomers)
       .catch(() => setError("Failed to load top customers."));
   }, []);

@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import ToolBar from "./ToolBar";
 import DarkModeSwitch from "./DarkModeSwitch";
 import ModalDelete from "./ModalStatus";
+import { APIRoutes } from "../Api";
 
 interface ProductFormData {
   productID?: number;
@@ -71,7 +72,7 @@ export default function ProductForm() {
   useEffect(() => {
     if (id) {
       setMode("edit");
-      fetch(`https://localhost:7157/api/Products/GetProductByID/${id}`)
+      fetch(APIRoutes.GET_PRODUCT_BY_ID(id))
         .then((res) => res.json())
         .then((data) => {
           const unitMatch = data.unit?.match(/^(\d+)\s*[-x]?\s*(.+)$/);
@@ -100,7 +101,8 @@ export default function ProductForm() {
   useEffect(() => {
     let supplierError = false;
     let categoryError = false;
-    fetch("https://localhost:7157/api/Supplier/GetAllSuppliers")
+
+    fetch(APIRoutes.SUPPLIERS_GET_ALL)
       .then((res) => res.json())
       .then(setSuppliers)
       .catch(() => {
@@ -109,7 +111,8 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
-    fetch("https://localhost:7157/api/Category/GetAllCategories")
+
+    fetch(APIRoutes.CATEGORIES_GET_ALL)
       .then((res) => res.json())
       .then(setCategories)
       .catch(() => {
@@ -118,22 +121,26 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
+
     setTimeout(() => {
-      if (supplierError && !categoryError)
+      if (supplierError && !categoryError) {
         showErrorModal("Failed to load suppliers.");
-      if (!supplierError && categoryError)
+      }
+      if (!supplierError && categoryError) {
         showErrorModal("Failed to load categories.");
+      }
     }, 300);
   }, []);
 
   // Check if a product name already exists in the database
   const checkNameExists = async (name: string): Promise<boolean> => {
-    const res = await fetch(
-      `https://localhost:7157/api/Products/CheckNameExists/${encodeURIComponent(
-        name
-      )}`
-    );
-    return await res.json();
+    try {
+      const res = await fetch(APIRoutes.CHECK_PRODUCT_NAME_EXISTS(name));
+      if (!res.ok) throw new Error("Failed to check name");
+      return await res.json(); // assuming it returns true/false
+    } catch {
+      return false; // fallback to "name does not exist" on error
+    }
   };
 
   // Validate product name uniqueness on change, ignoring name error if unchanged in edit mode
@@ -210,9 +217,7 @@ export default function ProductForm() {
       unit,
     };
     const url =
-      mode === "edit"
-        ? "https://localhost:7157/api/Products/EditProduct"
-        : "https://localhost:7157/api/Products/AddNewProduct";
+      mode === "edit" ? APIRoutes.PRODUCTS_EDIT : APIRoutes.PRODUCTS_ADD;
     const method = mode === "edit" ? "PUT" : "POST";
     try {
       const res = await fetch(url, {

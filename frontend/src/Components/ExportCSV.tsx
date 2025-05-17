@@ -1,13 +1,12 @@
 import React from "react";
 import excel from "../assets/icon-excel.png";
+import { APIRoutes } from "../Api";
 
 export default function ExportCSV() {
   // Fetch products from API and export them as a CSV file
   const fetchAndExport = async () => {
     try {
-      const response = await fetch(
-        "https://localhost:7157/api/Products/GetAllProducts"
-      );
+      const response = await fetch(APIRoutes.GET_ALL_PRODUCTS);
       if (!response.ok) throw new Error("Failed to fetch products.");
       const products = await response.json();
 

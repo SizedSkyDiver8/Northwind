@@ -8,6 +8,7 @@ import ModalStatus from "./ModalStatus";
 import ToolBar from "./ToolBar";
 import TopCustomers from "./TopCustomers";
 import ExportCSV from "./ExportCSV";
+import { APIRoutes } from "../Api";
 
 interface Products {
   productID: number;
@@ -56,11 +57,10 @@ export default function ProductsList() {
   const fetchPagedProducts = (pageNumber: number) => {
     const url =
       searchTerm.trim() === ""
-        ? `https://localhost:7157/api/Products/GetPagedProducts?pageNumber=${pageNumber}&pageSize=${pageSize}`
+        ? APIRoutes.PRODUCTS_PAGED(pageNumber, pageSize)
         : searchType === "name"
-        ? `https://localhost:7157/api/Products/GetProductsByName?name=${searchTerm}&pageNumber=${pageNumber}&pageSize=${pageSize}`
-        : `https://localhost:7157/api/Products/GetProductsByCategory?category=${searchTerm}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
-
+        ? APIRoutes.PRODUCTS_BY_NAME(searchTerm, pageNumber, pageSize)
+        : APIRoutes.PRODUCTS_BY_CATEGORY(searchTerm, pageNumber, pageSize);
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -94,10 +94,9 @@ export default function ProductsList() {
   // Delete product by ID, update UI, and show appropriate success or error modal based on API response
   const handleDelete = async (productId: number) => {
     try {
-      const res = await fetch(
-        `https://localhost:7157/api/Products/DeleteProductById/${productId}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(APIRoutes.DELETE_PRODUCT_BY_ID(productId), {
+        method: "DELETE",
+      });
       const result = await res.text();
       if (!res.ok) throw new Error("Network/server error");
       const status = parseInt(result);
