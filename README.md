@@ -42,6 +42,7 @@ You will also need the Docker image containing the Northwind database, which can
     ```
    dotnet run
     ```
+    
 IF step 3 doesnt work tun this command:
     ```
    dotnet dev-certs https --trust
@@ -58,6 +59,11 @@ IF step 3 doesnt work tun this command:
    ```
    npm install
    ```
+3. Run application:
+   ```
+   npm run dev
+   ```
+   
 
 ## 🧠 Project Notes
 
@@ -124,7 +130,7 @@ All AI-generated outputs were treated as suggestions — each piece of code was 
 
 ---
 
-## 🎨 Icon Attribution
+## Icon Attribution
 
 Icons used in this project are provided by [Icons8] (https://icons8.com/icons)
 
