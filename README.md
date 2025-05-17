@@ -74,7 +74,8 @@ You will also need the Docker image containing the Northwind database, which can
 - Database credentials for local testing:
   - **Username**: `sa`
   - **Password**: `Northwind!2024`
-
+    
+- **error-handling middleware** is used to catch unhandled exceptions, log them via Serilog, and return clean JSON error messages to the client.
 - The application supports **real-time validation** for product name uniqueness during both creation and updates.
 - Components such as the top customer display and product table each handle their own data logic and API communication.
 - Application state is split cleanly across routes and components, following single-responsibility principles.
