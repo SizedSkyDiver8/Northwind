@@ -72,7 +72,7 @@ export default function ProductForm() {
   useEffect(() => {
     if (id) {
       setMode("edit");
-      fetch(APIRoutes.GET_PRODUCT_BY_ID(id))
+      fetch(APIRoutes.GET_PRODUCT_BY_ID(parseInt(id)))
         .then((res) => res.json())
         .then((data) => {
           const unitMatch = data.unit?.match(/^(\d+)\s*[-x]?\s*(.+)$/);

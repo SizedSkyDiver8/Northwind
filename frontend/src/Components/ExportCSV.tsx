@@ -6,7 +6,7 @@ export default function ExportCSV() {
   // Fetch products from API and export them as a CSV file
   const fetchAndExport = async () => {
     try {
-      const response = await fetch(APIRoutes.GET_ALL_PRODUCTS);
+      const response = await fetch(APIRoutes.PRODUCTS_GET_ALL);
       if (!response.ok) throw new Error("Failed to fetch products.");
       const products = await response.json();
 

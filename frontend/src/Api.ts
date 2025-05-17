@@ -18,6 +18,12 @@ export const APIRoutes = {
   CATEGORIES_GET_ALL: `${BASE_URL}/Category/GetAllCategories`,
   CUSTOMERS_TOP3: `${BASE_URL}/Customer/GetTop3CustomerOrderCount`,
 
+  GET_PRODUCT_BY_ID: (id: number) =>
+    `${BASE_URL}/Products/GetProductByID/${id}`,
+
+  CHECK_PRODUCT_NAME_EXISTS: (name: string) =>
+    `${BASE_URL}/Products/CheckNameExists/${encodeURIComponent(name)}`,
+
   PRODUCTS_PAGED: (pageNumber: number, pageSize: number) =>
     `${BASE_URL}/Products/GetPagedProducts?pageNumber=${pageNumber}&pageSize=${pageSize}`,
 
