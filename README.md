@@ -23,6 +23,8 @@ To get started, first clone the project from GitHub and navigate into the projec
 Make sure to follow the setup instructions for the database, backend, and frontend to run the application locally.
      ```
     git clone https://github.com/SizedSkyDiver8/Northwind.git
+    ```
+    ```
     cd Northwind
      ```
 
