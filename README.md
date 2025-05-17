@@ -139,20 +139,9 @@ I chose to use a responsive card layout (instead of a second mobile-specific tab
 - Cards provide better visual grouping of product details in smaller viewports
 - They allow more flexible layout control without relying on complex media queries or dual components
 - Cards improve mobile usability by stacking and spacing elements in a way that’s easy to tap and read
----
-
-### 🎨 Why I Chose These Colors
-
-The color palette was selected to achieve a clean, modern, and accessible look that works well across both light and dark themes:
-
-- **Primary background and surface colors** are neutral (light gray or dark gray) to keep the focus on the content rather than the UI.
-- **Accent colors** (e.g., buttons, highlights) are chosen to be easily distinguishable and contrast well in both modes.
-- **Icons** use vibrant gradients (from the [Icons8 Nolan set](https://icons8.com/icons)) to create a visually engaging interface without overwhelming the user.
-- The theme supports **dark mode using CSS variables**, allowing seamless switching while maintaining brand consistency and readability.
-
-  The overall goal was to balance functionality with an appealing aesthetic that feels intuitive and visually consistent across devices.
 
 ---
+
 ## 🤖 Use of AI Tools
 
 AI tools were used to enhance the development workflow while ensuring all logic was clearly understood and manually refined.
