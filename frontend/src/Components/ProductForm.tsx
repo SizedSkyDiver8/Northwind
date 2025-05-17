@@ -32,6 +32,8 @@ const initialFormData: ProductFormData = {
   price: 0,
 };
 
+const LOCAL_STORAGE_KEY = "northwind_new_product_draft";
+
 export default function ProductForm() {
   const { id } = useParams();
   const location = useLocation();
@@ -68,7 +70,7 @@ export default function ProductForm() {
     setModalOpen(true);
   };
 
-  // Load product data in edit mode and parse unit details; reset form in create mode
+  //Load product data in edit mode and parse unit details; reset form in create mode
   useEffect(() => {
     if (id) {
       setMode("edit");
@@ -93,15 +95,26 @@ export default function ProductForm() {
         );
     } else {
       setMode("create");
-      setFormData(initialFormData);
+      const savedDraft = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedDraft) {
+        const {
+          formData: savedForm,
+          quantityPerUnit: savedQty,
+          unitType: savedUnit,
+        } = JSON.parse(savedDraft);
+        setFormData(savedForm);
+        setQuantityPerUnit(savedQty);
+        setUnitType(savedUnit);
+      } else {
+        setFormData(initialFormData);
+      }
     }
   }, [id, location.pathname]);
 
-  // Fetch suppliers and categories with combined error handling for failure messaging
+  // Fetches suppliers and categories in parallel, showing an error modal based on which fetches fail.
   useEffect(() => {
     let supplierError = false;
     let categoryError = false;
-
     fetch(APIRoutes.SUPPLIERS_GET_ALL)
       .then((res) => res.json())
       .then(setSuppliers)
@@ -111,7 +124,6 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
-
     fetch(APIRoutes.CATEGORIES_GET_ALL)
       .then((res) => res.json())
       .then(setCategories)
@@ -121,25 +133,34 @@ export default function ProductForm() {
           showErrorModal("Failed to load suppliers and categories.");
         }
       });
-
     setTimeout(() => {
-      if (supplierError && !categoryError) {
+      if (supplierError && !categoryError)
         showErrorModal("Failed to load suppliers.");
-      }
-      if (!supplierError && categoryError) {
+      if (!supplierError && categoryError)
         showErrorModal("Failed to load categories.");
-      }
     }, 300);
   }, []);
+
+  // Saves form draft to localStorage on change if in "create" mode.
+  useEffect(() => {
+    if (mode === "create") {
+      const draft = {
+        formData,
+        quantityPerUnit,
+        unitType,
+      };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(draft));
+    }
+  }, [formData, quantityPerUnit, unitType, mode]);
 
   // Check if a product name already exists in the database
   const checkNameExists = async (name: string): Promise<boolean> => {
     try {
       const res = await fetch(APIRoutes.CHECK_PRODUCT_NAME_EXISTS(name));
       if (!res.ok) throw new Error("Failed to check name");
-      return await res.json(); 
+      return await res.json();
     } catch {
-      return false; 
+      return false;
     }
   };
 
@@ -194,7 +215,7 @@ export default function ProductForm() {
     const isSameAsOriginal =
       mode === "edit" &&
       name.toLowerCase() === originalProductName.toLowerCase();
-    if (exists && !(mode === "edit" && isSameAsOriginal))
+    if (exists && !isSameAsOriginal)
       errors.productName = "Product name already exists.";
     if (!formData.supplierID) errors.supplierID = "Supplier is required.";
     if (!formData.categoryID) errors.categoryID = "Category is required.";
@@ -204,27 +225,32 @@ export default function ProductForm() {
     if (formData.price <= 0) errors.price = "Price must be greater than 0.";
     setErrors(errors);
     if (Object.keys(errors).length > 0) return;
+
     const supplier = suppliers.find(
       (s) => s.supplierID === formData.supplierID
     )!;
     const category = categories.find(
       (c) => c.categoryID === formData.categoryID
     )!;
+
     const payload = {
       ...formData,
       supplier,
       category,
       unit,
     };
+
     const url =
       mode === "edit" ? APIRoutes.PRODUCTS_EDIT : APIRoutes.PRODUCTS_ADD;
     const method = mode === "edit" ? "PUT" : "POST";
+
     try {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       if (res.ok) {
         setModalType("success");
         setModalMessage("Product saved successfully!");
@@ -242,6 +268,7 @@ export default function ProductForm() {
           </svg>
         );
         setModalOpen(true);
+        if (mode === "create") localStorage.removeItem(LOCAL_STORAGE_KEY);
         setTimeout(() => {
           if (mode === "create") window.location.reload();
           else setModalOpen(false);
