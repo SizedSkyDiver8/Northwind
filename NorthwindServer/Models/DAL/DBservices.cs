@@ -9,20 +9,8 @@
     using Microsoft.Extensions.Configuration;
     using System.Collections.Generic;
 
-
-    /// <summary>
-    /// DBServices is a class created by me to provides some DataBase Services
-    /// </summary>
     public class DBservices
     {
-
-        public DBservices()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
         //--------------------------------------------------------------------------------------------------
         // This method creates a connection to the database according to the connectionString name in the web.config 
         //--------------------------------------------------------------------------------------------------
@@ -44,15 +32,15 @@
         private SqlCommand CreateCommandWithStoredProcedure(String spName, SqlConnection con, Dictionary<string, object> paramDic)
         {
 
-            SqlCommand cmd = new SqlCommand(); // create the command object
+            SqlCommand cmd = new SqlCommand();
 
-            cmd.Connection = con;              // assign the connection to the command object
+            cmd.Connection = con;             
 
-            cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+            cmd.CommandText = spName;    
 
-            cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+            cmd.CommandTimeout = 10;          
 
-            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+            cmd.CommandType = System.Data.CommandType.StoredProcedure; 
 
             if (paramDic != null)
                 foreach (KeyValuePair<string, object> param in paramDic)
@@ -111,7 +99,6 @@
             }
             catch (Exception ex)
             {
-                // write to log
                 throw (ex);
             }
 
@@ -261,7 +248,6 @@
             }
             catch (Exception ex)
             {
-                // write to log
                 throw (ex);
             }
 
@@ -319,7 +305,6 @@
             }
             catch (Exception ex)
             {
-                // write to log
                 throw (ex);
             }
 
@@ -371,7 +356,6 @@
             }
             catch (Exception ex)
             {
-                // write to log
                 throw (ex);
             }
 
@@ -449,7 +433,7 @@
                 cmd.ExecuteNonQuery();
 
                 int result = Convert.ToInt32(returnParam.Value);
-                return result; // Can be 1, 0, or -1
+                return result; 
             }
             catch (Exception ex)
             {
@@ -493,18 +477,13 @@
                     product.Supplier.SupplierName = dataReader["SupplierName"].ToString();
                     productsList.Add(product);
                 }
-
-                // Move to second result set for total count
                 if (dataReader.NextResult() && dataReader.Read())
                 {
                     totalCount = Convert.ToInt32(dataReader[0]);
                 }
-
                 dataReader.Close();
             }
-
             conn.Close();
-
             return new PagedProductResult
             {
                 Products = productsList,
