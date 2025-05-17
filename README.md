@@ -17,12 +17,13 @@ Before setting up the project, make sure the following software is installed on 
 You will also need the Docker image containing the Northwind database, which can be downloaded from the link provided in the **Database Setup** section below.
 
 ---
-### 📥 Clone the Repository
-    To get started, first clone the project from GitHub and navigate into the project directory.
-    Make sure to follow the setup instructions for the database, backend, and frontend to run the application locally.
+
+### 📥 Clone Repository
+To get started, first clone the project from GitHub and navigate into the project directory.
+Make sure to follow the setup instructions for the database, backend, and frontend to run the application locally.
      ```
-    - git clone https://github.com/SizedSkyDiver8/Northwind.git
-    - cd Northwind
+    git clone https://github.com/SizedSkyDiver8/Northwind.git
+    cd Northwind
      ```
 
 ---
