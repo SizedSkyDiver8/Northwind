@@ -50,7 +50,6 @@ You will also need the Docker image containing the Northwind database, which can
 2. Install project dependencies:
 ```
    npm install
-   npm install @types/react-router-dom
 ```
 
 ## 🧠 Project Notes
