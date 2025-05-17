@@ -23,13 +23,13 @@ You will also need the Docker image containing the Northwind database, which can
 1. Download the MSSQL Docker image with the pre-loaded Northwind database from the following link:  
   https://drive.google.com/file/d/1GCGnRs4gWap5ue8vqjrmfh4Dz7d14_g-/view?usp=sharing
 2. replace {path_of_downloaded_file} with the actual folder path where you saved the .tar Docker image file
-  ```
+   ```
   docker load -i {path_of_downloaded_file}\northwind_img.tar
-  ```
+   ```
 3. Run the container using the loaded image:
-  ```
-  docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Northwind!2024" -p 1433:1433 --name sql_northwind_tools -d northwind_snapshot
-  ```
+   ```
+   docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Northwind!2024" -p 1433:1433 --name sql_northwind_tools -d northwind_snapshot
+   ```
 ---
 
 ### 🔧 Backend Setup
