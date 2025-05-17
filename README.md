@@ -167,10 +167,3 @@ AI tools were used to enhance the development workflow while ensuring all logic 
   Used for generating alternative UI behaviors, debugging suggestions, and refining logic during both frontend and backend development.
 
 All AI-generated outputs were treated as suggestions — each piece of code was reviewed, tested, and customized to meet the project requirements and coding standards.
-
----
-
-## Icon Attribution
-
-Icons used in this project are provided by [Icons8] (https://icons8.com/icons)
-
