@@ -292,7 +292,7 @@ export default function ProductsList() {
                   );
                   setModalIcon(
                     <svg className="modal-icon-svg" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="12" fill="#f59e0b" />
+                      <circle cx="12" cy="12" r="12" fill="#ef4444" />
                       <path
                         d="M15 9l-6 6m0-6l6 6"
                         stroke="white"

@@ -137,9 +137,9 @@ export default function ProductForm() {
     try {
       const res = await fetch(APIRoutes.CHECK_PRODUCT_NAME_EXISTS(name));
       if (!res.ok) throw new Error("Failed to check name");
-      return await res.json(); // assuming it returns true/false
+      return await res.json(); 
     } catch {
-      return false; // fallback to "name does not exist" on error
+      return false; 
     }
   };
 
