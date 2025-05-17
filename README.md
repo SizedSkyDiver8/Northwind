@@ -33,7 +33,7 @@ You will also need the Docker image containing the Northwind database, which can
 
 1. Navigate to the backend project directory:
    ```sh
-   cd server/NorthwindServer
+   cd NorthwindServer
 2. Build the backend project using the .NET CLI:
     ```
    dotnet build
