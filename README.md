@@ -35,13 +35,13 @@ You will also need the Docker image containing the Northwind database, which can
    ```sh
    cd server/NorthwindServer
 2. Build the backend project using the .NET CLI:
-3. ```
+    ```
    dotnet build
    ```
-4. Once the build is complete, run the API server:
-```
+3. Once the build is complete, run the API server:
+    ```
    dotnet run
-```
+    ```
 ---
 
 ### Frontend Setup
